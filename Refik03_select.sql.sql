@@ -6,8 +6,7 @@
         id CHAR(5),
         isim VARCHAR2(50),
         maas NUMBER(5)
-    );  
-    CREATE TABLE ogrenciler
+    );    CREATE TABLE ogrenciler
     (
         id NUMBER(9),
         isim VARCHAR2(50),
@@ -39,16 +38,9 @@
     SELECT * FROM ogrenciler 
     WHERE sinav_notu>80;
     
-    SELECT * FROM ogrenciler
-    WHERE sinav_notu>80;
-    
     -- notu 80 den büyük olanlar?n sadece isim ve not bilgilerini listeleme
     SELECT isim,sinav_notu
     FROM ogrenciler 
-    WHERE sinav_notu>80;
-    
-    SELECT isim,sinav_notu
-    FROM ogrenciler
     WHERE sinav_notu>80;
     
  /* -----------------------------------------------------------------------------
@@ -57,20 +49,12 @@
     SELECT * FROM ogrenciler
     WHERE adres = 'Ankara';
     
-    SELECT
-        *
-    FROM ogrenciler
-    WHERE adres='Ankara';
-    
     
  /* ----------------------------------------------------------------------------
   ORNEK3: id'si 124 olan ö?rencilerin tüm bilgilerini listele
  -----------------------------------------------------------------------------*/
     SELECT * FROM ogrenciler
     WHERE id = 124;
-    
-    SELECT * FROM ogrenciler
-    WHERE id=124;
     
             
 /* ======================= SELECT - BETWEEN ==================================*/ 
@@ -116,9 +100,15 @@
     SELECT * FROM  personel
     WHERE isim BETWEEN 'Mehmet Y?lmaz' AND 'Veli Han';
     
+    SELECT * FROM personel
+    WHERE isim BETWEEN 'Mehmet Yilmaz' AND 'Veli Han';
+    
 /* -----------------------------------------------------------------------------
   ORNEK6: id’si 10002 - 10004 aras?nda olmayan personelin bilgilerini listele
 -------------------------------------------------------------------------------*/ 
+    SELECT * FROM personel
+    WHERE id NOT BETWEEN '10002' AND '10004';
+    
     SELECT * FROM personel
     WHERE id NOT BETWEEN '10002' AND '10004';
     
@@ -145,11 +135,18 @@
      --2.YOL:
     SELECT id, isim, maas
     FROM personel
-    WHERE id IN(10001, 10002, 10004);   
+    WHERE id IN(10001, 10002, 10004);  
+    
+    SELECT id,isim,maas
+    FROM personel
+    WHERE id IN(10001, 10002, 10004);
     
 /* -----------------------------------------------------------------------------
   ORNEK8: Maa?? sadece 7000  ve 12000 olan personelin bilgilerini listele
 -----------------------------------------------------------------------------*/   
+    SELECT * FROM personel
+    WHERE maas IN(7000,12000);
+    
     SELECT * FROM personel
     WHERE maas IN(7000,12000);
     
@@ -162,7 +159,7 @@
     SELECT sutün1, sutün2,…
     FROM  tablo_ad?WHERE sütunN LIKE pattern
     
-    PATTERN ?Ç?N
+    PATTERN (ORNEK)  ?Ç?N
     -------------
     %    ---> 0 veya daha fazla karakteri belirtir. 
     _    ---> Tek bir karakteri temsil eder.
@@ -174,11 +171,17 @@
  -----------------------------------------------------------------------------*/   
     SELECT * FROM personel
     WHERE isim LIKE 'A%';
+    
+    SELECT * FROM personel
+    WHERE isim LIKE 'm% ';
 /* -----------------------------------------------------------------------------
   ORNEK10:  ismi n harfi ile bitenleri listeleyiniz
  -----------------------------------------------------------------------------*/
     SELECT * FROM personel
     WHERE isim LIKE '%n';
+    
+    SELECT * FROM personel
+    where isim LIKE ' %m';
  /* -----------------------------------------------------------------------------
   ORNEK11:  isminin 2. harfi e olanlar? listeleyiniz
  -----------------------------------------------------------------------------*/ 
@@ -271,6 +274,10 @@
     INSERT INTO kelimeler VALUES (1013, 'hoot', 4);
     INSERT INTO kelimeler VALUES (1014, 'haaat', 5);
     
+    SELECT
+        *
+    FROM kelimeler;
+    
     DROP TABLE kelimeler;
    
 /* -----------------------------------------------------------------------------
@@ -279,6 +286,12 @@
     SELECT * FROM kelimeler
     WHERE REGEXP_LIKE(kelime, 'hi');
     
+    SELECT * FROM kelimeler
+    WHERE REGEXP_LIKE(kelime,'hi');
+    
+    SELECT * FROM kelimeler
+    WHERE REGEXP_LIKE(kelime,'[hio]');
+    
 /* -----------------------------------------------------------------------------
   ORNEK22: ?çerisinde 'ot' veya 'at' bulunan kelimeleri listeleyeniz
  -----------------------------------------------------------------------------*/ 
@@ -286,6 +299,11 @@
     
     SELECT * FROM kelimeler
     WHERE REGEXP_LIKE(kelime, 'at|ot');
+    
+    SELECT * FROM kelimeler
+    WHERE REGEXP_LIKE(kelime,'at|ot');
+    
+    
    
 /* -----------------------------------------------------------------------------
   ORNEK23: ?çerisinde 'ot' veya 'at' bulunan kelimeleri büyük-küçük harfe dikkat
@@ -295,7 +313,11 @@
      -- 'i' => incase-sentisitive demektir.
    
     SELECT * FROM kelimeler
-    WHERE REGEXP_LIKE(kelime, 'at|ot', 'i');    
+    WHERE REGEXP_LIKE(kelime, 'at|ot', 'i');   
+    
+    
+    
+    
    
  /* -----------------------------------------------------------------------------
   ORNEK24: 'ho' veya 'hi' ile ba?layan kelimeleri büyük-küçük harfe dikkat
@@ -306,6 +328,9 @@
     SELECT * FROM kelimeler
     WHERE REGEXP_LIKE(kelime, '^hi|^ho', 'i');   
     
+    SELECT * FROM kelimeler
+    WHERE regexp_like (kelime,'^hi|^ho','i');
+    
 /* -----------------------------------------------------------------------------
   ORNEK25: Sonu 't' veya 'm' ile bitenleri büyük-küçük harfe dikkat
   etmeksizin listeleyeniz
@@ -314,6 +339,11 @@
 
     SELECT * FROM kelimeler
     WHERE REGEXP_LIKE(kelime, 't$|m$', 'i');   
+    
+    SELECT
+        *
+    FROM kelimeler
+    WHERE REGEXP_LIKE(kelime,'t$|m$','i');
 
 /* -----------------------------------------------------------------------------
   ORNEK26: h ile ba?lay?p t ile biten 3 harfli kelimeleri büyük-küçük harfe 
@@ -321,7 +351,11 @@
  -----------------------------------------------------------------------------*/ 
 
     SELECT * FROM kelimeler
-    WHERE REGEXP_LIKE(kelime, 'h[a-zA-Z0-9]t');   
+    WHERE REGEXP_LIKE(kelime, 'h[a-zA-Z0-9]t'); 
+    
+    SELECT * FROM kelimeler
+    WHERE REGEXP_LIKE(kelime,'h[a-z0-9]t','i');
+   -- WHERE REGEXP_LIKE(kelime,'h[a-zA-Z0-9]t');
 
 /* -----------------------------------------------------------------------------
   ORNEK27: ?lk harfi h, son harfi t olup 2.harfi a veya i olan 3 harfli 
@@ -329,18 +363,26 @@
  -----------------------------------------------------------------------------*/ 
     SELECT * FROM kelimeler
     WHERE REGEXP_LIKE (kelime, 'h[ai]t');
+    
+    
 
 /* -----------------------------------------------------------------------------
   ORNEK28: ?çinde m veya i veya e olan kelimelerin tüm bilgilerini listeleyiniz.
  -----------------------------------------------------------------------------*/     
     SELECT * FROM kelimeler
     WHERE REGEXP_LIKE (kelime, '[mie](*)');
+    
+    SELECT * FROM kelimeler
+    WHERE REGEXP_LIKE (kelime,'[mie](*)');
  
 /* -----------------------------------------------------------------------------
   ORNEK29: a veya s ile ba?layan kelimelerin tüm bilgilerini listeleyiniz.
 -----------------------------------------------------------------------------*/ 
     SELECT * FROM kelimeler
     WHERE REGEXP_LIKE (kelime, '^[as]');
+    
+    SELECT * FROM kelimeler
+    WHERE REGEXP_LIKE(kelime,'^[as]');
 
 /* -----------------------------------------------------------------------------
   ORNEK30: içerisinde en az 2 adet oo bar?d?ran kelimelerin tüm bilgilerini 
@@ -349,7 +391,9 @@
     SELECT *  FROM kelimeler
     WHERE REGEXP_LIKE (kelime, '[o]{2}');
     
+    SELECT * FROM kelimeler
+    WHERE REGEXP_LIKE(kelime,'[o]{2}');
+    
     
          
   
-    
